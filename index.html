@@ -54,7 +54,7 @@
             <div class="input-group-prepend">
                 <label class="input-group-text" for="cipherselect">Cipher Yang Digunakan</label>
             </div>
-            <select class="custom-select" id="cipherselect">
+            <select class="custom-select" id="cipherselect" onchange="changeCipher()">
                 <option value="vigenere">Vigenere Cipher</option>
                 <option value="fullvigenere">Full Vigenere Cipher</option>
                 <option value="autovigenere">Auto-key Vigenere Cipher</option>
@@ -71,6 +71,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Kunci</span>
             </div>
+            <label for="kunci" class="d-none">Kunci</label>
             <input type="text" class="form-control" id="kunci">
         </div>
     </div>
@@ -85,15 +86,19 @@
         </div>
         <div class="col">
             <label id="tablefileselectorlabel" class="d-none" for="tablefileselector">File Tabel</label>
-            <input class="form-control-file d-none" type="file" id="tablefileselector">
+            <input onchange="loadTable()" accept="text/plain" class="form-control-file d-none" type="file"
+                   id="tablefileselector">
         </div>
     </div>
-    <div class="row w-75 mx-auto justify-content-center">
+    <div class="row w-75 mx-auto justify-content-center my-3">
         <button type="button" id="encryptbutton" class="btn btn-primary mx-1" onclick="encrypt()">Enkripsi</button>
         <button type="button" id="decryptbutton" class="btn btn-primary mx-1 d-none" onclick="decrypt()">Dekripsi
         </button>
-        <button type="button" onclick="saveFile()" id="savecipherbutton" class="btn btn-success mx-1" disabled>Simpan Hasil Enkripsi</button>
-        <button type="button" onclick="saveFile()" id="saveplainbutton" class="btn btn-success mx-1 d-none" disabled>Simpan Hasil Dekripsi
+        <button type="button" onclick="saveFile()" id="savecipherbutton" class="btn btn-success mx-1" disabled>Simpan
+            Hasil Enkripsi
+        </button>
+        <button type="button" onclick="saveFile()" id="saveplainbutton" class="btn btn-success mx-1 d-none" disabled>
+            Simpan Hasil Dekripsi
         </button>
     </div>
     <div class="row mx-auto">
@@ -111,5 +116,7 @@
         </div>
     </div>
 </div>
+<label for="generatedtable" class="d-none">Generated Table</label>
+<textarea class="d-none" id="generatedtable"></textarea>
 </body>
 </html>

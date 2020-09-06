@@ -19,6 +19,9 @@ function applyCipher(text) {
     if (document.getElementById('cipherselect').value === "vigenere") {
         resultText = encryptVigenereCipher(text, key);
     }
+    if (document.getElementById('cipherselect').value === "fullvigenere") {
+        resultText = encryptFullVigenereCipher(text, key, randomizeTable());
+    }
     if (document.getElementById('cipherselect').value === "autovigenere") {
         resultText = encryptAutokeyVigenereCipher(text, key);
     }
@@ -35,6 +38,21 @@ function applyDecipher(text) {
 
     if (document.getElementById('cipherselect').value === "vigenere") {
         resultText = decryptVigenereCipher(text, key);
+    }
+    if (document.getElementById('cipherselect').value === "fullvigenere") {
+        let table = document.getElementById('generatedtable').value;
+        table = stringToIntList(table);
+        let parsedTable = [];
+        let k = 0;
+        for (let i = 0; i < 26; i++) {
+            let temp = [];
+            for (let j = 0; j < 26; j++) {
+                temp.push(table[k]);
+                k++;
+            }
+            parsedTable.push(temp);
+        }
+        resultText = decryptFullVigenereCipher(text, key, parsedTable);
     }
     if (document.getElementById('cipherselect').value === "autovigenere") {
         resultText = decryptAutokeyVigenereCipher(text, key);
@@ -152,6 +170,16 @@ function saveFile() {
     } else {
         if (document.getElementById('cryptselect').value === 'enkripsi') {
             saveText("encrypted_file", true);
+            if (document.getElementById('cipherselect').value === 'fullvigenere') {
+                let text = document.getElementById('generatedtable').value;
+                let element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain,' + encodeURIComponent(text));
+                element.setAttribute('download', "generated_table");
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            }
         } else {
             saveText("decrypted_file", false);
         }
@@ -220,6 +248,15 @@ function changeType() {
 
 function changeCrypt() {
     showButton();
+    if (document.getElementById('cipherselect').value === 'fullvigenere' &&
+        document.getElementById('cryptselect').value === 'dekripsi') {
+        document.getElementById('tablefileselector').className = "form-control-file";
+        document.getElementById('tablefileselectorlabel').className = "";
+    } else {
+        document.getElementById('tablefileselector').className = "form-control-file d-none";
+        document.getElementById('tablefileselectorlabel').className = "d-none";
+    }
+
     document.getElementById('plaintextarea').value = "";
     document.getElementById('ciphertextarea').value = "";
 
@@ -257,4 +294,15 @@ function changeDisplay() {
         }
     }
 
+}
+
+function changeCipher() {
+    if (document.getElementById('cipherselect').value === 'fullvigenere' &&
+        document.getElementById('cryptselect').value === 'dekripsi') {
+        document.getElementById('tablefileselector').className = "form-control-file";
+        document.getElementById('tablefileselectorlabel').className = "";
+    } else {
+        document.getElementById('tablefileselector').className = "form-control-file d-none";
+        document.getElementById('tablefileselectorlabel').className = "d-none";
+    }
 }

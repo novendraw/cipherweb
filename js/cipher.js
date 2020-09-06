@@ -127,3 +127,51 @@ function decryptExtendedVigenereCipher(bytes, key) {
 
     return resultList;
 }
+
+function encryptFullVigenereCipher(text, key, table) {
+    text = sanitizeText(text);
+    key = sanitizeText(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = "";
+
+    for (let i = 0; i < textList.length; i++) {
+        resultList[i] = table[keyList[i % keyList.length]][textList[i]];
+    }
+
+    resultList = intsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}
+
+function decryptFullVigenereCipher(text, key, table) {
+    text = sanitizeText(text);
+    key = sanitizeText(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = "";
+
+    for (let i = 0; i < textList.length; i++) {
+        for (let j = 0; j < 26; j++) {
+            if (table[keyList[i % keyList.length]][j] === textList[i]) {
+                resultList[i] = j;
+            }
+        }
+    }
+
+    resultList = intsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}
