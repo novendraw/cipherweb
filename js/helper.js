@@ -22,7 +22,28 @@ function getTextUpload() {
     }))
 }
 
+function getBinerUpload() {
+    document.getElementById('savecipherbutton').disabled = true;
+    document.getElementById('saveplainbutton').disabled = true;
+    return document.getElementById('binerfileselector').files[0].arrayBuffer();
+}
 function stringToIntList(string) {
+    let s = [];
+    for (let i = 0; i < string.length; i++) {
+        s[i] = string.charCodeAt(i) - 65;
+    }
+    return s;
+}
+
+function intsToCharList(integers) {
+    let ints = [];
+    for (let i = 0; i < integers.length; i++) {
+        ints[i] = String.fromCharCode(integers[i] + 65);
+    }
+    return ints;
+}
+
+function extendedStringToIntList(string) {
     let s = [];
     for (let i = 0; i < string.length; i++) {
         s[i] = string.charCodeAt(i) - 65;
