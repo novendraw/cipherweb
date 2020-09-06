@@ -5,8 +5,96 @@
     <title>Cipherweb</title>
     <link rel="stylesheet" type="text/css" href="css/index.css"/>
     <script src="js/index.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<input type="file" id="file-selector" multiple>
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="display-1 mx-auto">CIPHERWEB</h1>
+    </div>
+    <div class="row mx-3">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="typeselect">Tipe Masukan</label>
+            </div>
+            <select class="custom-select" id="typeselect" onchange="changeType()">
+                <option value="text">Unggah File Text</option>
+                <option value="biner">Unggah File Biner</option>
+                <option value="input">Masukan Pengguna Melalui Keyboard</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mx-3">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="displayselect">Format Tampilan</label>
+            </div>
+            <select class="custom-select" id="displayselect" onchange="changeDisplay()">
+                <option value="tanpaspasi">Tanpa Spasi</option>
+                <option value="limahuruf">Dalam Kelompok 5 Huruf</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mx-3">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="cryptselect">Operasi</label>
+            </div>
+            <select class="custom-select" id="cryptselect" onchange="changeCrypt()">
+                <option value="enkripsi">Enkripsi</option>
+                <option value="dekripsi">Dekripsi</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mx-3">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="cipherselect">Cipher Yang Digunakan</label>
+            </div>
+            <select class="custom-select" id="cipherselect">
+                <option value="vigenere">Vigenere Cipher</option>
+                <option value="fullvigenere">Full Vigenere Cipher</option>
+                <option value="autovigenere">Auto-key Vigenere Cipher</option>
+                <option value="extendedvigenere">Extended Vigenere Cipher</option>
+                <option value="playfair">Playfair Cipher</option>
+                <option value="super">Super Enkripsi : Vigenere Cipher + Cipher</option>
+                <option value="affine">Affine Cipher</option>
+                <option value="hill">Hill Cipher</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mx-3">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Kunci</span>
+            </div>
+            <input type="text" class="form-control" id="kunci">
+        </div>
+    </div>
+
+    <div class="row w-75 mx-auto justify-content-center">
+        <input onchange="handleUploadText()" type="file" id="textfileselector" accept="text/plain">
+        <input class="d-none" type="file" id="binerfileselector">
+        <button type="button" id="encryptbutton" class="btn btn-primary mx-1" onclick="encrypt()">Enkripsi</button>
+        <button type="button" id="decryptbutton" class="btn btn-primary mx-1 d-none">Dekripsi</button>
+        <button type="button" id="savecipherbutton" class="btn btn-success mx-1" disabled>Simpan Hasil Enkripsi</button>
+        <button type="button" id="saveplainbutton" class="btn btn-success mx-1 d-none" disabled>Simpan Hasil Dekripsi</button>
+    </div>
+    <div class="row mx-auto">
+        <div class="col w-50">
+            <div class="form-group mx-auto w-75">
+                <label for="plaintextarea" class="w-100 text-center font-weight-bold">Plainteks</label>
+                <textarea class="form-control" id="plaintextarea" rows="7" disabled></textarea>
+            </div>
+        </div>
+        <div class="col w-50">
+            <div class="form-group mx-auto w-75">
+                <label for="ciphertextarea" class="w-100 text-center font-weight-bold">Cipherteks</label>
+                <textarea class="form-control" id="ciphertextarea" rows="7" disabled></textarea>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
