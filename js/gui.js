@@ -19,6 +19,9 @@ function applyCipher(text) {
     if (document.getElementById('cipherselect').value === "vigenere") {
         resultText = encryptVigenereCipher(text, key);
     }
+    if (document.getElementById('cipherselect').value === "autovigenere") {
+        resultText = encryptAutokeyVigenereCipher(text, key);
+    }
 
     return resultText;
 }
@@ -29,6 +32,9 @@ function applyDecipher(text) {
 
     if (document.getElementById('cipherselect').value === "vigenere") {
         resultText = decryptVigenereCipher(text, key);
+    }
+    if (document.getElementById('cipherselect').value === "autovigenere") {
+        resultText = decryptAutokeyVigenereCipher(text, key);
     }
 
     return resultText;
@@ -57,7 +63,13 @@ function encrypt() {
     }
 
     if (document.getElementById('typeselect').value === "biner") {
-
+        getBinerUpload().then(binary => {
+            let blob = new Blob([binary]);
+            let link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "encrypted_file";
+            link.click();
+        })
     }
 
     if (document.getElementById('typeselect').value === "input") {
@@ -98,6 +110,38 @@ function handleUploadText() {
     }).catch(error => console.log(error));
 }
 
+function saveText(filename, encrypt) {
+    let text;
+    if (encrypt) {
+        text = document.getElementById('ciphertextarea').value;
+    } else {
+        text = document.getElementById('plaintextarea').value;
+    }
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
+function saveFile() {
+    if (document.getElementById('typeselect').value === 'biner') {
+        if (document.getElementById('cryptselect').value === 'enkripsi') {
+            document.getElementById('encryptbutton').click();
+        } else {
+            document.getElementById('decryptbutton').click();
+        }
+    } else {
+        if (document.getElementById('cryptselect').value === 'enkripsi') {
+            saveText("encrypted_file", true);
+        } else {
+            saveText("decrypted_file", false);
+        }
+    }
+}
+
 function changeType() {
     document.getElementById('plaintextarea').value = '';
     document.getElementById('ciphertextarea').value = '';
@@ -113,8 +157,10 @@ function changeType() {
 
         document.getElementById('plaintextarea').className = "form-control";
         document.getElementById('ciphertextarea').className = "form-control";
-        document.getElementById('textfileselector').className = "";
-        document.getElementById('binerfileselector').className = "d-none";
+        document.getElementById('textfileselector').className = "form-control-file";
+        document.getElementById('binerfileselector').className = "form-control-file d-none";
+        document.getElementById('textfileselectorlabel').className = "";
+        document.getElementById('binerfileselectorlabel').className = "d-none";
         document.getElementById('plaintextarea').disabled = true;
         document.getElementById('ciphertextarea').disabled = true;
     }
@@ -128,8 +174,10 @@ function changeType() {
 
         document.getElementById('plaintextarea').className = "form-control d-none";
         document.getElementById('ciphertextarea').className = "form-control d-none";
-        document.getElementById('textfileselector').className = "d-none";
-        document.getElementById('binerfileselector').className = "";
+        document.getElementById('textfileselector').className = "form-control-file d-none";
+        document.getElementById('binerfileselector').className = "form-control-file";
+        document.getElementById('textfileselectorlabel').className = "d-none";
+        document.getElementById('binerfileselectorlabel').className = "";
     }
 
     if (document.getElementById('typeselect').value === 'input') {
@@ -140,8 +188,10 @@ function changeType() {
 
         document.getElementById('plaintextarea').className = "form-control";
         document.getElementById('ciphertextarea').className = "form-control";
-        document.getElementById('textfileselector').className = "d-none";
-        document.getElementById('binerfileselector').className = "d-none";
+        document.getElementById('textfileselector').className = "form-control-file d-none";
+        document.getElementById('binerfileselector').className = "form-control-file d-none";
+        document.getElementById('textfileselectorlabel').className = "d-none";
+        document.getElementById('binerfileselectorlabel').className = "d-none";
         if (document.getElementById('cryptselect').value === 'enkripsi') {
             document.getElementById('plaintextarea').disabled = false;
             document.getElementById('ciphertextarea').disabled = true;

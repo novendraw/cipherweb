@@ -44,3 +44,57 @@ function decryptVigenereCipher(text, key) {
 
     return resultText;
 }
+
+function encryptAutokeyVigenereCipher(text, key) {
+    text = sanitizeText(text);
+    key = sanitizeText(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = "";
+
+    for (let i = 0; i < textList.length; i++) {
+        if (i < keyList.length) {
+            resultList[i] = (textList[i] + keyList[i]) % 26;
+        } else {
+            resultList[i] = (textList[i] + resultList[i - keyList.length]) % 26;
+        }
+    }
+    resultList = intsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}
+
+function decryptAutokeyVigenereCipher(text, key) {
+    text = sanitizeText(text);
+    key = sanitizeText(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = "";
+
+    for (let i = 0; i < textList.length; i++) {
+        if (i < keyList.length) {
+            resultList[i] = (textList[i] - keyList[i]) % 26;
+        } else {
+            resultList[i] = (textList[i] - resultList[i - keyList.length]) % 26;
+        }
+        while (resultList[i] < 0) {
+            resultList[i] += 26;
+        }
+    }
+
+    resultList = intsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}
