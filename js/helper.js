@@ -46,15 +46,15 @@ function intsToCharList(integers) {
 function extendedStringToIntList(string) {
     let s = [];
     for (let i = 0; i < string.length; i++) {
-        s[i] = string.charCodeAt(i) - 65;
+        s[i] = string.charCodeAt(i);
     }
     return s;
 }
 
-function intsToCharList(integers) {
+function extendedIntsToCharList(integers) {
     let ints = [];
     for (let i = 0; i < integers.length; i++) {
-        ints[i] = String.fromCharCode(integers[i] + 65);
+        ints[i] = String.fromCharCode(integers[i]);
     }
     return ints;
 }

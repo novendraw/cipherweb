@@ -22,6 +22,9 @@ function applyCipher(text) {
     if (document.getElementById('cipherselect').value === "autovigenere") {
         resultText = encryptAutokeyVigenereCipher(text, key);
     }
+    if (document.getElementById('cipherselect').value === "extendedvigenere") {
+        resultText = encryptExtendedVigenereCipher(text, key);
+    }
 
     return resultText;
 }
@@ -35,6 +38,9 @@ function applyDecipher(text) {
     }
     if (document.getElementById('cipherselect').value === "autovigenere") {
         resultText = decryptAutokeyVigenereCipher(text, key);
+    }
+    if (document.getElementById('cipherselect').value === "extendedvigenere") {
+        resultText = decryptExtendedVigenereCipher(text, key);
     }
 
     return resultText;
@@ -64,7 +70,9 @@ function encrypt() {
 
     if (document.getElementById('typeselect').value === "biner") {
         getBinerUpload().then(binary => {
-            let blob = new Blob([binary]);
+            let key = document.getElementById('kunci').value;
+            let result = encryptExtendedVigenereCipher(new Uint8Array(binary), key);
+            let blob = new Blob([result], {type: "application/octet-stream"});
             let link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
             link.download = "encrypted_file";
@@ -88,7 +96,15 @@ function decrypt() {
     }
 
     if (document.getElementById('typeselect').value === "biner") {
-
+        getBinerUpload().then(binary => {
+            let key = document.getElementById('kunci').value;
+            let result = decryptExtendedVigenereCipher(new Uint8Array(binary), key);
+            let blob = new Blob([result], {type: "application/octet-stream"});
+            let link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "decrypted_file";
+            link.click();
+        })
     }
 
     if (document.getElementById('typeselect').value === "input") {
