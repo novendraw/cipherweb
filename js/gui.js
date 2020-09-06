@@ -23,6 +23,17 @@ function applyCipher(text) {
     return resultText;
 }
 
+function applyDecipher(text) {
+    let key = document.getElementById('kunci').value;
+    let resultText;
+
+    if (document.getElementById('cipherselect').value === "vigenere") {
+        resultText = decryptVigenereCipher(text, key);
+    }
+
+    return resultText;
+}
+
 function showButton() {
     if (document.getElementById('cryptselect').value === 'enkripsi') {
         document.getElementById('encryptbutton').className = "btn btn-primary mx-1";
@@ -53,6 +64,25 @@ function encrypt() {
         let text = document.getElementById('plaintextarea').value;
         showCipherText(applyCipher(text));
         document.getElementById('savecipherbutton').disabled = false;
+    }
+}
+
+function decrypt() {
+    if (document.getElementById('typeselect').value === "text") {
+        getTextUpload().then(text => {
+            showPlainText(applyDecipher(text));
+            document.getElementById('saveplainbutton').disabled = false;
+        }).catch(error => console.log(error));
+    }
+
+    if (document.getElementById('typeselect').value === "biner") {
+
+    }
+
+    if (document.getElementById('typeselect').value === "input") {
+        let text = document.getElementById('ciphertextarea').value;
+        showPlainText(applyDecipher(text));
+        document.getElementById('saveplainbutton').disabled = false;
     }
 }
 
