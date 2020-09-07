@@ -45,6 +45,79 @@ function decryptVigenereCipher(text, key) {
     return resultText;
 }
 
+function encryptSuperEncryption(text, key, transpose) {
+    text = sanitizeText(text);
+    key = sanitizeText(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = "";
+    let secondResultList = [];
+
+    for (let i = 0; i < transpose; i++) {
+        secondResultList.push([]);
+    }
+
+    for (let i = 0; i < textList.length; i++) {
+        resultList[i] = (textList[i] + keyList[i % keyList.length]) % 26;
+
+    }
+    resultList = intsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        secondResultList[i % transpose].push(resultList[i]);
+    }
+
+    for (let i = 0; i < transpose; i++) {
+        for (let j = 0; j < secondResultList[i].length; j++) {
+            resultText += secondResultList[i][j];
+        }
+    }
+
+    return resultText;
+}
+
+function decryptSuperEncryption(text, key, transpose) {
+    text = sanitizeText(text);
+    key = sanitizeText(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = "";
+    let firstList = [];
+    let secondList = [];
+
+    for (let i = 0; i < Math.ceil(textList.length / transpose); i++) {
+        firstList.push([]);
+    }
+
+    for (let i = 0; i < textList.length; i++) {
+        firstList[i % firstList.length].push(textList[i]);
+    }
+
+    for (let i = 0; i < firstList.length; i++) {
+        for (let j = 0; j < firstList[i].length; j++) {
+            secondList.push(firstList[i][j]);
+        }
+    }
+
+    for (let i = 0; i < secondList.length; i++) {
+        resultList[i] = (secondList[i] - keyList[i % keyList.length]) % 26;
+        while (resultList[i] < 0) {
+            resultList[i] += 26;
+        }
+    }
+
+    resultList = intsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}
+
 function encryptAutokeyVigenereCipher(text, key) {
     text = sanitizeText(text);
     key = sanitizeText(key);

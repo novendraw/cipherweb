@@ -19,6 +19,15 @@ function applyCipher(text) {
     if (document.getElementById('cipherselect').value === "vigenere") {
         resultText = encryptVigenereCipher(text, key);
     }
+    if (document.getElementById('cipherselect').value === "super") {
+        let transpose = document.getElementById('kuncitransposisi').value;
+        if (sanitizeText(text).length % transpose === 0) {
+            resultText = encryptSuperEncryption(text, key, transpose);
+        } else {
+            alert("Banyak huruf pada teks harus merupakan kelipatan dari kunci transposisi");
+            return '';
+        }
+    }
     if (document.getElementById('cipherselect').value === "fullvigenere") {
         resultText = encryptFullVigenereCipher(text, key, randomizeTable());
     }
@@ -39,6 +48,16 @@ function applyDecipher(text) {
     if (document.getElementById('cipherselect').value === "vigenere") {
         resultText = decryptVigenereCipher(text, key);
     }
+
+    if (document.getElementById('cipherselect').value === "super") {
+        let transpose = document.getElementById('kuncitransposisi').value;
+        if (text.length % transpose === 0) {
+            resultText = decryptSuperEncryption(text, key, transpose);
+        } else {
+            alert("Banyak huruf pada teks harus merupakan kelipatan dari kunci transposisi");
+        }
+    }
+
     if (document.getElementById('cipherselect').value === "fullvigenere") {
         let table = document.getElementById('generatedtable').value;
         table = stringToIntList(table);
@@ -304,5 +323,11 @@ function changeCipher() {
     } else {
         document.getElementById('tablefileselector').className = "form-control-file d-none";
         document.getElementById('tablefileselectorlabel').className = "d-none";
+    }
+
+    if (document.getElementById('cipherselect').value === 'super') {
+        document.getElementById('supertranposisi').className = "input-group mb-3";
+    } else {
+        document.getElementById('supertranposisi').className = "input-group mb-3 d-none";
     }
 }
