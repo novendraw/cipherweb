@@ -248,3 +248,56 @@ function decryptFullVigenereCipher(text, key, table) {
 
     return resultText;
 }
+
+function encryptAffineCipher(text, key, affine) {
+    text = sanitizeText(text);
+    key = parseInt(key);
+    let textList = stringToIntList(text);
+    let resultList = [];
+    let resultText = "";
+
+    for (let i = 0; i < textList.length; i++) {
+        resultList[i] = ((affine * textList[i]) + key) % 26;
+        while (resultList[i] < 0) {
+            resultList[i] += 26;
+        }
+    }
+    resultList = intsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}
+
+function decryptAffineCipher(text, key, affine) {
+    text = sanitizeText(text);
+    key = parseInt(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = "";
+    let j = 0;
+
+    while ((j * affine) % 26 !== 1) {
+        j++;
+    }
+
+    for (let i = 0; i < textList.length; i++) {
+        resultList[i] = (j * (textList[i] - key)) % 26;
+        while (resultList[i] < 0) {
+            resultList[i] += 26;
+        }
+    }
+
+    resultList = intsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}

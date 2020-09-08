@@ -14,6 +14,7 @@ function showCipherText(text) {
 
 function applyCipher(text) {
     let key = document.getElementById('kunci').value;
+    let numberkey = document.getElementById('numberkeyinput').value;
     let resultText;
 
     if (document.getElementById('cipherselect').value === "vigenere") {
@@ -38,11 +39,17 @@ function applyCipher(text) {
         resultText = encryptExtendedVigenereCipher(text, key);
     }
 
+    if (document.getElementById('cipherselect').value === "affine") {
+        let affine = document.getElementById('affineselect').value;
+        resultText = encryptAffineCipher(text, numberkey, affine);
+    }
+
     return resultText;
 }
 
 function applyDecipher(text) {
     let key = document.getElementById('kunci').value;
+    let numberkey = document.getElementById('numberkeyinput').value;
     let resultText;
 
     if (document.getElementById('cipherselect').value === "vigenere") {
@@ -78,6 +85,11 @@ function applyDecipher(text) {
     }
     if (document.getElementById('cipherselect').value === "extendedvigenere") {
         resultText = decryptExtendedVigenereCipher(text, key);
+    }
+
+    if (document.getElementById('cipherselect').value === "affine") {
+        let affine = document.getElementById('affineselect').value;
+        resultText = decryptAffineCipher(text, numberkey, affine);
     }
 
     return resultText;
@@ -329,5 +341,16 @@ function changeCipher() {
         document.getElementById('supertranposisi').className = "input-group mb-3";
     } else {
         document.getElementById('supertranposisi').className = "input-group mb-3 d-none";
+    }
+
+    if (document.getElementById('cipherselect').value === 'affine') {
+        document.getElementById('affinekey').className = "row mx-3";
+        document.getElementById('numberkey').className = "input-group mb-3";
+        document.getElementById('textkey').className = "input-group mb-3 d-none";
+    } else {
+        document.getElementById('affinekey').className = "row mx-3 d-none";
+        document.getElementById('numberkey').className = "input-group mb-3 d-none";
+        document.getElementById('textkey').className = "input-group mb-3";
+
     }
 }
