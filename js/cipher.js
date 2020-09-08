@@ -176,11 +176,9 @@ function encryptExtendedVigenereCipher(bytes, key) {
     let resultList = bytes;
     let keyList = extendedStringToIntList(key);
 
-    console.log(resultList);
     for (let i = 0; i < resultList.length; i++) {
         resultList[i] = (resultList[i] + keyList[i % keyList.length]) % 256;
     }
-    console.log(resultList);
 
     return resultList;
 }
@@ -189,16 +187,54 @@ function decryptExtendedVigenereCipher(bytes, key) {
     let resultList = bytes;
     let keyList = extendedStringToIntList(key);
 
-    console.log(resultList);
     for (let i = 0; i < resultList.length; i++) {
         resultList[i] = (resultList[i] - keyList[i % keyList.length]) % 256;
         while (resultList[i] < 0) {
             resultList[i] += 256;
         }
     }
-    console.log(resultList);
 
     return resultList;
+}
+
+function encryptTextExtendedVigenereCipher(text, key) {
+    let resultList = extendedStringToIntList(text);
+    let keyList = extendedStringToIntList(key);
+    let resultText = "";
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultList[i] = (resultList[i] + keyList[i % keyList.length]) % 256;
+    }
+
+    resultList = extendedIntsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+    }
+
+    return resultText;
+}
+
+function decryptTextExtendedVigenereCipher(text, key) {
+    let resultList = extendedStringToIntList(text);
+    let keyList = extendedStringToIntList(key);
+    let resultText = "";
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultList[i] = (resultList[i] - keyList[i % keyList.length]) % 256;
+        while (resultList[i] < 0) {
+            resultList[i] += 256;
+        }
+    }
+
+    resultList = extendedIntsToCharList(resultList);
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+    }
+
+    return resultText;
+
 }
 
 function encryptFullVigenereCipher(text, key, table) {

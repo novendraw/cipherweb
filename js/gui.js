@@ -36,7 +36,7 @@ function applyCipher(text) {
         resultText = encryptAutokeyVigenereCipher(text, key);
     }
     if (document.getElementById('cipherselect').value === "extendedvigenere") {
-        resultText = encryptExtendedVigenereCipher(text, key);
+        resultText = encryptTextExtendedVigenereCipher(text, key);
     }
 
     if (document.getElementById('cipherselect').value === "affine") {
@@ -92,7 +92,7 @@ function applyDecipher(text) {
         resultText = decryptAutokeyVigenereCipher(text, key);
     }
     if (document.getElementById('cipherselect').value === "extendedvigenere") {
-        resultText = decryptExtendedVigenereCipher(text, key);
+        resultText = decryptTextExtendedVigenereCipher(text, key);
     }
 
     if (document.getElementById('cipherselect').value === "affine") {
@@ -142,6 +142,7 @@ function encrypt() {
             link.href = window.URL.createObjectURL(blob);
             link.download = "encrypted_file";
             link.click();
+            document.getElementById('savecipherbutton').disabled = false;
         })
     }
 
@@ -169,6 +170,7 @@ function decrypt() {
             link.href = window.URL.createObjectURL(blob);
             link.download = "decrypted_file";
             link.click();
+            document.getElementById('saveplainbutton').disabled = false;
         })
     }
 
