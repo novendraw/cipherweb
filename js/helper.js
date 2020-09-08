@@ -139,3 +139,13 @@ function findPosition(x, matrix) {
     }
     return found;
 }
+
+function multiplyMatrix(key, teks) {
+    let result = [];
+    for (let i = 0; i < teks.length; i += 3) {
+        result[i] = teks[i] * key[0][0] + teks[i + 1] * key[0][1] + teks[i + 2] * key[0][2];
+        result[i + 1] = teks[i] * key[1][0] + teks[i + 1] * key[1][1] + teks[i + 2] * key[1][2];
+        result[i + 2] = teks[i] * key[2][0] + teks[i + 1] * key[2][1] + teks[i + 2] * key[2][2];
+    }
+    return result;
+}

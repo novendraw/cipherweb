@@ -48,6 +48,10 @@ function applyCipher(text) {
         resultText = encryptPlayfairCipher(text, key);
     }
 
+    if (document.getElementById('cipherselect').value === "hill") {
+        resultText = encryptHillCipher(text, key);
+    }
+
     return resultText;
 }
 
@@ -98,6 +102,10 @@ function applyDecipher(text) {
 
     if (document.getElementById('cipherselect').value === "playfair") {
         resultText = decryptPlayfairCipher(text, key);
+    }
+
+    if (document.getElementById('cipherselect').value === "hill") {
+        resultText = decryptHillCipher(text, key);
     }
 
     return resultText;

@@ -243,7 +243,6 @@ function decryptFullVigenereCipher(text, key, table) {
 
     for (let i = 0; i < resultList.length; i++) {
         resultText += resultList[i];
-
     }
 
     return resultText;
@@ -404,4 +403,137 @@ function decryptPlayfairCipher(text, key) {
     }
 
     return resultText;
+}
+
+function encryptHillCipher(text, key) {
+    text = sanitizeText(text);
+    key = sanitizeText(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = [];
+    let concatResultText = [];
+    let formattedText = [];
+    let formattedKey = [];
+    let k = 0;
+
+    for (let i = 0; i < math.sqrt(keyList.length); i++) {
+        formattedText.push([]);
+    }
+
+    for (let i = 0; i < math.sqrt(keyList.length); i++) {
+        formattedKey.push([]);
+    }
+
+    for (let i = 0; i < math.sqrt(keyList.length); i++) {
+        for (let j = 0; j < math.sqrt(keyList.length); j++) {
+            formattedKey[i].push(keyList[(i * math.sqrt(keyList.length)) + j]);
+        }
+    }
+
+    for (let i = 0; i < textList.length / math.sqrt(keyList.length); i++) {
+        for (let j = 0; j < math.sqrt(keyList.length); j++) {
+            formattedText[j].push(textList[k]);
+            k++;
+        }
+    }
+
+    if (math.det(formattedKey) === 0) {
+        alert("Determinan dari kunci tidak boleh 0");
+        return "";
+    }
+
+    if (math.gcd(math.round(math.det(formattedKey)), 26) !== 1) {
+        alert("Determinan dari kunci harus koprima dengan 26");
+        return "";
+    }
+
+    resultList = math.multiply(formattedKey, formattedText);
+
+    for (let i = 0; i < textList.length / math.sqrt(keyList.length); i++) {
+        for (let j = 0; j < math.sqrt(keyList.length); j++) {
+            resultText.push(resultList[j][i] % 26);
+        }
+    }
+
+    resultText = intsToCharList(resultText);
+
+    for (let i = 0; i < resultText.length; i++) {
+        concatResultText += resultText[i];
+
+    }
+
+    return concatResultText;
+}
+
+function decryptHillCipher(text, key) {
+    text = sanitizeText(text);
+    key = sanitizeText(key);
+    let textList = stringToIntList(text);
+    let keyList = stringToIntList(key);
+    let resultList = [];
+    let resultText = [];
+    let concatResultText = [];
+    let formattedText = [];
+    let formattedKey = [];
+    let k = 0;
+
+    for (let i = 0; i < math.sqrt(keyList.length); i++) {
+        formattedText.push([]);
+    }
+
+    for (let i = 0; i < math.sqrt(keyList.length); i++) {
+        formattedKey.push([]);
+    }
+
+    for (let i = 0; i < math.sqrt(keyList.length); i++) {
+        for (let j = 0; j < math.sqrt(keyList.length); j++) {
+            formattedKey[i].push(keyList[(i * math.sqrt(keyList.length)) + j]);
+        }
+    }
+
+    for (let i = 0; i < textList.length / math.sqrt(keyList.length); i++) {
+        for (let j = 0; j < math.sqrt(keyList.length); j++) {
+            formattedText[j].push(textList[k]);
+            k++;
+        }
+    }
+
+    if (math.det(formattedKey) === 0) {
+        alert("Determinan dari kunci tidak boleh 0");
+        return "";
+    }
+
+    if (math.gcd(math.round(math.det(formattedKey)), 26) !== 1) {
+        alert("Determinan dari kunci harus koprima dengan 26");
+        return "";
+    }
+
+    let undeterminedKey = math.round(math.multiply(math.det(formattedKey), math.inv(formattedKey)));
+    let determinant = ((math.round(math.det(formattedKey)) % 26) + 26) % 26;
+
+    for (let i = 1; i < 26; i++) {
+        if ((determinant * i) % 26 === 1) {
+            formattedKey = math.multiply(i, undeterminedKey);
+        }
+    }
+
+    resultList = math.multiply(formattedKey, formattedText);
+    for (let i = 0; i < textList.length / math.sqrt(keyList.length); i++) {
+        for (let j = 0; j < math.sqrt(keyList.length); j++) {
+            while ((resultList[j][i]) < 0) {
+                resultList[j][i] += 26;
+            }
+            resultText.push(resultList[j][i] % 26);
+        }
+    }
+
+    resultText = intsToCharList(resultText);
+
+    for (let i = 0; i < resultText.length; i++) {
+        concatResultText += resultText[i];
+
+    }
+
+    return concatResultText;
 }
