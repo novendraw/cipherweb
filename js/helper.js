@@ -104,3 +104,38 @@ function loadTable() {
         document.getElementById('generatedtable').value = table;
     })
 }
+
+function createMatrix(text) {
+    text += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let unique = "";
+    let matrix = [[], [], [], [], []];
+    let k = 0;
+
+    for (let i = 0; i < text.length; i++) {
+        if ((unique.indexOf(text[i]) === -1) && (text[i] !== 'j') && (text[i] !== 'J')) {
+            unique += text[i];
+        }
+    }
+
+    for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+            matrix[i].push(unique[k]);
+            k++;
+        }
+    }
+
+    return matrix;
+}
+
+function findPosition(x, matrix) {
+    let found = [];
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j] === x) {
+                found[0] = i;
+                found[1] = j;
+            }
+        }
+    }
+    return found;
+}

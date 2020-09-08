@@ -301,3 +301,107 @@ function decryptAffineCipher(text, key, affine) {
 
     return resultText;
 }
+
+function encryptPlayfairCipher(text, key) {
+    text = sanitizeText(text);
+    text.replace('J', 'I');
+    let formattedText = "";
+    for (let i = 0; i < text.length; i += 2) {
+        formattedText += text[i];
+        if (text[i + 1] != null) {
+            if (text[i] === text[i + 1]) {
+                formattedText += 'X';
+            }
+        }
+        formattedText += text[i + 1];
+    }
+
+    if (formattedText.length % 2 !== 0) {
+        formattedText += 'X';
+    }
+
+    key = sanitizeText(key);
+    let textList = stringToIntList(formattedText);
+    let keyList = createMatrix(key);
+    let resultList = [];
+    let resultText = "";
+
+    for (let i = 0; i < textList.length; i += 2) {
+        let firstPosition = findPosition(String.fromCharCode(textList[i] + 65), keyList);
+        let secondPosition = findPosition(String.fromCharCode(textList[i + 1] + 65), keyList);
+
+        if (firstPosition[0] === secondPosition[0]) {
+            resultList[i] = keyList[firstPosition[0]][(firstPosition[1] + 1) % 5];
+            resultList[i + 1] = keyList[secondPosition[0]][(secondPosition[1] + 1) % 5];
+        }
+
+        if (firstPosition[1] === secondPosition[1]) {
+            resultList[i] = keyList[(firstPosition[0] + 1) % 5][firstPosition[1]];
+            resultList[i + 1] = keyList[(secondPosition[0] + 1) % 5][secondPosition[1]];
+        }
+
+        if ((firstPosition[0] !== secondPosition[0]) && (firstPosition[1] !== secondPosition[1])) {
+            resultList[i] = keyList[firstPosition[0]][secondPosition[1]];
+            resultList[i + 1] = keyList[secondPosition[0]][firstPosition[1]];
+        }
+    }
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}
+
+function decryptPlayfairCipher(text, key) {
+    text = sanitizeText(text);
+    text.replace('J', 'I');
+    let formattedText = "";
+    for (let i = 0; i < text.length; i += 2) {
+        formattedText += text[i];
+        if (text[i + 1] != null) {
+            if (text[i] === text[i + 1]) {
+                formattedText += 'X';
+            }
+        }
+        formattedText += text[i + 1];
+    }
+
+    if (formattedText.length % 2 !== 0) {
+        formattedText += 'X';
+    }
+
+    key = sanitizeText(key);
+    let textList = stringToIntList(formattedText);
+    let keyList = createMatrix(key);
+    let resultList = [];
+    let resultText = "";
+
+    for (let i = 0; i < textList.length; i += 2) {
+        let firstPosition = findPosition(String.fromCharCode(textList[i] + 65), keyList);
+        let secondPosition = findPosition(String.fromCharCode(textList[i + 1] + 65), keyList);
+
+        if (firstPosition[0] === secondPosition[0]) {
+            resultList[i] = keyList[firstPosition[0]][(firstPosition[1] + 4) % 5];
+            resultList[i + 1] = keyList[secondPosition[0]][(secondPosition[1] + 4) % 5];
+        }
+
+        if (firstPosition[1] === secondPosition[1]) {
+            resultList[i] = keyList[(firstPosition[0] + 4) % 5][firstPosition[1]];
+            resultList[i + 1] = keyList[(secondPosition[0] + 4) % 5][secondPosition[1]];
+        }
+
+        if ((firstPosition[0] !== secondPosition[0]) && (firstPosition[1] !== secondPosition[1])) {
+            resultList[i] = keyList[firstPosition[0]][secondPosition[1]];
+            resultList[i + 1] = keyList[secondPosition[0]][firstPosition[1]];
+        }
+    }
+
+    for (let i = 0; i < resultList.length; i++) {
+        resultText += resultList[i];
+
+    }
+
+    return resultText;
+}

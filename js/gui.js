@@ -44,6 +44,10 @@ function applyCipher(text) {
         resultText = encryptAffineCipher(text, numberkey, affine);
     }
 
+    if (document.getElementById('cipherselect').value === "playfair") {
+        resultText = encryptPlayfairCipher(text, key);
+    }
+
     return resultText;
 }
 
@@ -90,6 +94,10 @@ function applyDecipher(text) {
     if (document.getElementById('cipherselect').value === "affine") {
         let affine = document.getElementById('affineselect').value;
         resultText = decryptAffineCipher(text, numberkey, affine);
+    }
+
+    if (document.getElementById('cipherselect').value === "playfair") {
+        resultText = decryptPlayfairCipher(text, key);
     }
 
     return resultText;
