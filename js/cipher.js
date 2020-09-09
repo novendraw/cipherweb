@@ -130,7 +130,7 @@ function encryptAutokeyVigenereCipher(text, key) {
         if (i < keyList.length) {
             resultList[i] = (textList[i] + keyList[i]) % 26;
         } else {
-            resultList[i] = (textList[i] + resultList[i - keyList.length]) % 26;
+            resultList[i] = (textList[i] + textList[i - keyList.length]) % 26;
         }
     }
     resultList = intsToCharList(resultList);
